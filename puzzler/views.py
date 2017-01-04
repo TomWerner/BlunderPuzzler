@@ -20,7 +20,12 @@ def home(request):
     puzzles = list(Puzzle.objects.all())
     random.shuffle(puzzles)
 
-    return render(request, 'puzzler.html', {'puzzles': puzzles})
+    return render(request, 'puzzler.html', {
+        'puzzles': puzzles,
+        'inaccuracy_count': Puzzle.objects.filter(severity=1).count(),
+        'mistake_count': Puzzle.objects.filter(severity=2).count(),
+        'blunder_count': Puzzle.objects.filter(severity=4).count(),
+    })
 
 
 def add_annotated_pgn(request):

@@ -62,9 +62,15 @@
     <div class="container" id="container" style="text-align: center">
         <div style="display: inline-block">
             <div id="severity-selectors">
-                <label class="checkbox-inline"><input type="checkbox" value="1" id="inaccuray">Inaccuracies</label>
-                <label class="checkbox-inline"><input type="checkbox" value="2" id="mistake" checked>Mistakes</label>
-                <label class="checkbox-inline"><input type="checkbox" value="4" id="blunder" checked>Blunders</label>
+                <label class="checkbox-inline"><input type="checkbox" value="1" id="inaccuray">
+                    Inaccuracies ({{ inaccuracy_count }})
+                </label>
+                <label class="checkbox-inline"><input type="checkbox" value="2" id="mistake" checked>
+                    Mistakes ({{ mistake_count }})
+                </label>
+                <label class="checkbox-inline"><input type="checkbox" value="4" id="blunder" checked>
+                    Blunders ({{ blunder_count }})
+                </label>
             </div>
             <h1>
                 Puzzles
