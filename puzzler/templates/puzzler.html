@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <script>
+        $(document).ready(function () {
+            var index = 0;
+            var puzzle_links = [
+                {% for puzzle in puzzles %}
+                    '{{ puzzle.iframe_link }}',
+                {% endfor %}
+            ];
+            var puzzle_severities = [
+                {% for puzzle in puzzles %}
+                    {{ puzzle.severity }},
+                {% endfor %}
+            ];
+
+            var document_width = $(document).width();
+            var iframe_width = '575px';
+            if (document_width > 300 && document_width < 600) {
+                var padding = (document_width - 302) / 2;
+                $('#container').css('padding-left', padding).css('padding-right', padding);
+                iframe_width = '100%';
+            }
+
+            var set_puzzle = function () {
+                $('#puzzle').html(
+                    '<iframe src="' + puzzle_links[index] + '" ' +
+                    'width="' + iframe_width + '" ' +
+                    'height="465px" ' +
+                    'frameborder="0">' +
+                    '</iframe>')
+            };
+            var next_puzzle = function () {
+                var selected = $('#severity-selectors').find('input:checked');
+                var severity_mask = 0;
+                for (var i = 0; i < selected.length; i++) {
+                    severity_mask |= parseInt($(selected[i]).val(), 10);
+                }
+                if (severity_mask == 0) {
+                    alert('You must select at least one puzzle level!');
+                    return;
+                }
+                for (var i = 1; i < puzzle_links.length; i++) {
+                    if (puzzle_severities[(index + i) % puzzle_links.length] & severity_mask) {
+                        index = (index + i) % puzzle_links.length;
+                        console.log(index);
+                        set_puzzle();
+                        return;
+                    }
+                }
+            };
+
+            $('#refresh-button').on('click', set_puzzle);
+            $('#next-button').on('click', next_puzzle);
+            next_puzzle();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="container" style="text-align: center">
+        <div style="display: inline-block">
+            <div id="severity-selectors">
+                <label class="checkbox-inline"><input type="checkbox" value="1" id="inaccuray">Inaccuracies</label>
+                <label class="checkbox-inline"><input type="checkbox" value="2" id="mistake" checked>Mistakes</label>
+                <label class="checkbox-inline"><input type="checkbox" value="4" id="blunder" checked>Blunders</label>
+            </div>
+            <h1>
+                Puzzles
+                <button class="btn btn-default" style="margin-bottom: 4px;" id="refresh-button">
+                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-primary" style="margin-bottom: 4px;" id="next-button">
+                    Next <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </button>
+            </h1>
+
+        </div>
+        <div id="puzzle">
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+venv
+*.pyc
+staticfiles
+.env
+db.sqlite3
+bower_components/
+node_modules
+.idea/
+local_settings.py

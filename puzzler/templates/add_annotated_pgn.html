@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <h1>Send an Invitation</h1>
+            <form method="post" action="/add/" id="invite_form">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="pgn">Chess.com Annotated PGN</label>
+                        <textarea id="pgn" rows="10" class="form-control" name="pgn"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
