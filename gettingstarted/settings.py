@@ -148,7 +148,7 @@ except ImportError:
     USERNAME = os.environ.get('CHESS_USERNAME', None)
     ALLOWED_HOSTS = [os.environ.get('HOST_URL', None)]
     CURRENT_HOST = os.environ.get('HOST_URL', None)
-    DEBUG = False
+    DEBUG = os.environ.get('DEBUG', 'True') == 'True'
     SECRET_KEY = os.environ.get('SECRET_KEY', None)
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
