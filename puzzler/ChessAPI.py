@@ -94,9 +94,9 @@ class AnnotatedVisitor(BaseVisitor):
         elif 'mistake' in comment.lower():
             self.severity = 2
         elif 'blunder' in comment.lower():
-            self.severity = 3
+            self.severity = 4
         elif 'missed mate' in comment.lower():
-            self.severity = 3
+            self.severity = 4
 
 
 class AnalysisVisitor(BaseVisitor):
