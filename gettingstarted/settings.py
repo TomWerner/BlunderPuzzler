@@ -152,7 +152,6 @@ except ImportError:
     SECRET_KEY = os.environ.get('SECRET_KEY', None)
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
-    X_FRAME_OPTIONS = 'DENY'
 
     CSRF_COOKIE_SECURE = False
     CSRF_COOKIE_HTTPONLY = True
