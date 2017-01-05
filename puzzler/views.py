@@ -7,6 +7,7 @@ import chess.pgn
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 
@@ -18,6 +19,7 @@ from puzzler.models import Puzzle
 
 def home(request):
     puzzles = list(Puzzle.objects.all())
+    puzzles = filter(lambda x: x.get_rating() >= 3, puzzles)
     random.shuffle(puzzles)
 
     return render(request, 'puzzler.html', {
@@ -46,3 +48,9 @@ def add_annotated_pgn(request):
     messages.success(request, "Puzzles added!")
 
     return redirect(to="/add", request=request)
+
+
+def rate_puzzle(request, puzzle_id):
+    rating = request.GET['rating']
+    get_object_or_404(Puzzle, pk=puzzle_id).add_rating(rating)
+    return JsonResponse({})

@@ -3,6 +3,7 @@ import requests
 from io import StringIO
 from bs4 import BeautifulSoup
 import chess.pgn
+import chess.uci
 from chess.pgn import BaseVisitor
 
 

@@ -4,6 +4,11 @@
     <script>
         $(document).ready(function () {
             var index = 0;
+            var puzzle_ids = [
+                {% for puzzle in puzzles %}
+                    '{{ puzzle.id }}',
+                {% endfor %}
+            ];
             var puzzle_links = [
                 {% for puzzle in puzzles %}
                     '{{ puzzle.iframe_link }}',
@@ -12,6 +17,11 @@
             var puzzle_severities = [
                 {% for puzzle in puzzles %}
                     {{ puzzle.severity }},
+                {% endfor %}
+            ];
+            var puzzle_ratings = [
+                {% for puzzle in puzzles %}
+                    {{ puzzle.get_rating }},
                 {% endfor %}
             ];
 
@@ -25,11 +35,34 @@
 
             var set_puzzle = function () {
                 $('#puzzle').html(
+                    '<div class="rating-div">' +
+                    '<h3>' + puzzle_ratings[index] + '<i class="fa fa-star" aria-hidden="true"></i>' +
+                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '<i class="fa fa-star-o rating-star" aria-hidden="true" data-value="1" id="star1"></i>&nbsp;&nbsp;' +
+                    '<i class="fa fa-star-o rating-star" aria-hidden="true" data-value="2" id="star2"></i>&nbsp;&nbsp;' +
+                    '<i class="fa fa-star-o rating-star" aria-hidden="true" data-value="3" id="star3"></i>&nbsp;&nbsp;' +
+                    '<i class="fa fa-star-o rating-star" aria-hidden="true" data-value="4" id="star4"></i>&nbsp;&nbsp;' +
+                    '<i class="fa fa-star-o rating-star" aria-hidden="true" data-value="5" id="star5"></i>&nbsp;&nbsp;' +
+                    '</h3>' +
+                    '</div>' +
                     '<iframe src="' + puzzle_links[index] + '" ' +
                     'width="' + iframe_width + '" ' +
                     'height="465px" ' +
                     'frameborder="0">' +
-                    '</iframe>')
+                    '</iframe>');
+
+                $('.rating-star').on('click', function(e) {
+                    var rating = parseInt($(this).data('value'), 10);
+                    var puzzle_id = puzzle_ids[index];
+                    $.get('/rate/' + puzzle_id + '/?rating=' + rating).success(function (e) {
+                        for (var i = 1; i <= 5; i++) {
+                            if (i <= rating)
+                                $('#star' + i).removeClass('fa-star-o').addClass('fa-star');
+                            else
+                                $('#star' + i).removeClass('fa-star').addClass('fa-star-o');
+                        }
+                    });
+                });
             };
             var next_puzzle = function () {
                 var selected = $('#severity-selectors').find('input:checked');

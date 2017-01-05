@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^$', views.home),
     url(r'^admin/', admin.site.urls),
     url(r'^add/', views.add_annotated_pgn),
+    url(r'^rate/([0-9]+)/', views.rate_puzzle),
 
     # Default django stuff
     url(r'^(?i)accounts/logout/$', 'django.contrib.auth.views.logout'),
